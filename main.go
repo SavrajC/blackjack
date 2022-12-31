@@ -98,7 +98,6 @@ type Game struct {
 }
 
 // NewGame creates a new game of blackjack with a shuffled deck of cards
-// NewGame creates a new game of blackjack with a shuffled deck of cards
 func NewGame() *Game {
 	deck := make(Deck, 52)
 	suits := []string{"♠", "♥", "♦", "♣"}
@@ -138,10 +137,17 @@ func (g *Game) Stand() {
 
 // Result returns the result of the game as a string
 func (g *Game) Result() string {
+
 	if g.Dealer.Total > 21 {
-		return "You win! Dealer busts."
+		return "You win! Dealer bust."
+	} else if g.Player.Total == 21 && g.Dealer.Total == 21 {
+		return "You both hit blackjack! You Tie."
 	} else if g.Player.Total > 21 {
 		return "You lose! You bust."
+	} else if g.Player.Total > 21 && g.Dealer.Total != 21 {
+		return "You win! Dealer busts."
+	} else if g.Dealer.Total > 21 && g.Dealer.Total != 21 {
+		return "You win! Dealer busts."
 	} else if g.Dealer.Total > g.Player.Total {
 		return "You lose! Dealer has a higher score."
 	} else if g.Dealer.Total < g.Player.Total {
@@ -176,8 +182,7 @@ func main() {
 		}
 	}
 
-	fmt.Println("Dealer's hand:", g.Dealer)
-	fmt.Println("Your hand:", g.Player)
+	fmt.Println("Dealer's hand:", g.Dealer, "\nDealer Total:", g.Dealer.Total)
+	fmt.Println("Your hand:", g.Player, "\nYour Total:", g.Player.Total)
 	fmt.Println(g.Result())
-	// git commit -m "feat: basic functionality of blackjack" -m "Can create a deck,
 }
